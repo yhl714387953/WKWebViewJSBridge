@@ -1,6 +1,8 @@
 ## WKWebView与JS的交互过程
 
-OC和Swift两个版本，原理比较简单。
+OC和Swift两个版本，原理比较简单，UI如下：
+
+<img src="page.jpg" width="300" align=center />
 
 ### OC、Swift调用JS方法
 
