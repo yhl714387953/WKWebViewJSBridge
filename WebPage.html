@@ -1,0 +1,147 @@
+<!doctype html>
+<html><head>
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0" charset="utf-8">
+        
+    <style type='text/css'>
+        
+        h1 {
+            color: steelblue;
+            font-size:24px;
+            margin-top:24px;
+        }
+        
+        /* 禁止当前组件弹出选择复制等菜单 */
+        body {
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+        }
+    
+        .my-button {
+            font-size: 20px;
+            width: 100%;
+        }
+    
+        .tip {
+            font-size: 12px;
+            color: lightgray;
+            width: 100%;
+        }
+    
+        .container {
+            border: dashed 1px gray;
+            margin-bottom: 10px;
+        }
+    
+        #id-my-audio {
+            width:100%;
+            margin-top: 5px;
+        }
+    
+        #id-my-video {
+            width: 100%;
+            height: 200px;
+            margin-bottom: -5px;
+            border: solid 1px lightgray;
+        }
+    </style>
+    
+    <script>
+        
+        function clicked(e){
+            alert(e)
+        }
+    
+        var audioUrl = 'http://txmov2.a.yximgs.com/bs2/newWatermark/MTE3NjcxNzQ4MTg_zh_3.mp4'
+        
+        /*  视频播放的话通过点击按钮调用native，native再调用网页，需要native传过来
+         var videoUrl = 'http://muymov.a.yximgs.com/bs2/newWatermark/MTQwMjI4MjU2NDM_zh_4.mp4'
+         */
+    
+    
+        function webViewCallNative(){
+            
+            var params = {'url': 'Call APP method "CallApp()"'}
+            window.webkit.messageHandlers.CallApp.postMessage(params);
+        }
+    
+    
+    
+        //调用native方法，APP响应之后再调用网页的方法videoPlay
+        function callAPPViedeoPlay(){
+            var params = {'info': 'Thanks!'}
+            window.webkit.messageHandlers.APPVideoPlay.postMessage(params);
+        }
+    
+        //等待native调用的方法
+        function videoPlay(videoUrl){
+            var video = document.getElementById('id-my-video')
+            video.setAttribute("src", videoUrl)
+            video.play()
+        }
+    
+        //内部直接调用的方法
+        function audioPlay(){
+
+           var audio = document.getElementById('id-my-audio')
+           audio.setAttribute("src", audioUrl)
+           audio.play()
+        }
+    
+
+        function addComment(){
+            var comment = document.getElementById('id-comment')
+            var childComment = document.createElement('button')
+            childComment.innerText = '确实厉害啊~'
+            
+            var childCount = comment.children.length
+            var randNum = Math.floor(Math.random() * 1000000) + 100000
+            var commentId = childCount.toString() + randNum.toString()
+            childComment.setAttribute('id', commentId)
+            
+            <!-- var method = 'clickComment("666~")' -->
+            // 必须要有双引号
+            var method = 'clickComment("' + commentId + '")'
+            childComment.setAttribute('onclick', method)
+            
+            comment.appendChild(childComment)
+            childComment == null
+        }
+    
+        function clickComment(e){
+            alert(e)
+        }
+    
+    </script>
+</head>
+<body>
+    <h1>就想用HTML写页面</h1>
+    
+    <div class='container'>
+        <div class='tip'>点击按钮后网页会调alert()方法，在native里可以拦截到这个消息</div>
+        <button onclick='clicked("alert")' style='width: 100%;'>网页alert</button>
+    </div>
+    <div class='container'>
+        <div class='tip'>点击网页上的按钮，调用native的方法 "CallApp" </div>
+        <button class='my-button' onclick='webViewCallNative()'>webViewCallNative</button>
+    </div>
+    
+    <div class='container'>
+        <div class='tip'>网页内部给音频播放器更换播放源并播放视频</div>
+        <button class='my-button' onclick='audioPlay()'>播放歌曲《胡广生》</button>
+        <audio id='id-my-audio' controls></audio>
+    </div>
+    
+    
+    <div class='container'>
+        <div class='tip'>调用native方法"APPVideoPlay"，APP 响应之后再调用网页的方法"videoPlay" </div>
+        <button class='my-button' onclick='callAPPViedeoPlay()'>播放视频胡子歌《只是太爱你》</button>
+        <video id='id-my-video' controls playsinline></video>
+    </div>
+    
+    <button class='my-button' onclick='addComment()'>添加评论</button>
+    <div id='id-comment'>
+        <div>添加评论</div>
+        
+    </div>
+    
+</body></html>
