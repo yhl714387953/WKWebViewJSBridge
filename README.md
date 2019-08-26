@@ -17,22 +17,6 @@ function videoPlay(videoUrl){
 }
 ```
 
-**Swift:** native去调用网页方法 `videoPlay(videoUrl)`
-
-```
-let url = "http://muymov.a.yximgs.com/bs2/newWatermark/MTQwMjI4MjU2NDM_zh_4.mp4"
-      
-//  必须要有双引号
-let method = "videoPlay(\"\(url)\")"
-webView .evaluateJavaScript(method) { (obj, error) in
-    if let myError = error {
-        print(myError)
-    }else{
-        print("JS方法调用成功")
-    }
-}       
-```
-
 **OC:** native去调用 `videoPlay(videoUrl)`
 
 ```
@@ -47,6 +31,22 @@ NSString* method = [NSString stringWithFormat:@"videoPlay(\"%@\")", url];
         NSLog(@"JS方法调用成功");
     }
 }];
+```
+
+**Swift:** native去调用网页方法 `videoPlay(videoUrl)`
+
+```
+let url = "http://muymov.a.yximgs.com/bs2/newWatermark/MTQwMjI4MjU2NDM_zh_4.mp4"
+      
+//  必须要有双引号
+let method = "videoPlay(\"\(url)\")"
+webView .evaluateJavaScript(method) { (obj, error) in
+    if let myError = error {
+        print(myError)
+    }else{
+        print("JS方法调用成功")
+    }
+}       
 ```
 
 ### JS调用OC、Swift方法
