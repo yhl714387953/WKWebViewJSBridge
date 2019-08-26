@@ -11,9 +11,9 @@ JS准备一个方法
 ```
 //等待native调用的方法
 function videoPlay(videoUrl){
-	var video = document.getElementById('id-my-video')
-	video.setAttribute("src", videoUrl)
-	video.play()
+    var video = document.getElementById('id-my-video')
+    video.setAttribute("src", videoUrl)
+    video.play()
 }
 ```
 
@@ -25,11 +25,11 @@ let url = "http://muymov.a.yximgs.com/bs2/newWatermark/MTQwMjI4MjU2NDM_zh_4.mp4"
 //  必须要有双引号
 let method = "videoPlay(\"\(url)\")"
 webView .evaluateJavaScript(method) { (obj, error) in
-	if let myError = error {
-		print(myError)
-	}else{
-		print("JS方法调用成功")
-	}
+    if let myError = error {
+        print(myError)
+    }else{
+        print("JS方法调用成功")
+    }
 }       
 ```
 
@@ -41,11 +41,11 @@ NSString* url = @"http://muymov.a.yximgs.com/bs2/newWatermark/MTQwMjI4MjU2NDM_zh
 //  必须要有双引号
 NSString* method = [NSString stringWithFormat:@"videoPlay(\"%@\")", url];
 [self.webView evaluateJavaScript:method completionHandler:^(id _Nullable obj, NSError * _Nullable error) {
-	if (error) {
-		NSLog(@"%@", error);
-	}else{
-		NSLog(@"JS方法调用成功");
-	}
+    if (error) {
+        NSLog(@"%@", error);
+    }else{
+        NSLog(@"JS方法调用成功");
+    }
 }];
 ```
 
@@ -92,9 +92,9 @@ uc.add(self, name: "APPVideoPlay")
 //        就是 messageHandlers 后面的参数
         
 webView = WKWebView(frame: .zero, configuration: config)
-	//        webView.frame = view.bounds
-	view.addSubview(webView)
-	webView.uiDelegate = self;
+//        webView.frame = view.bounds
+view.addSubview(webView)
+webView.uiDelegate = self;
 ```
 
 在 webView 的UIDelegate代理中可以拿到响应
@@ -116,8 +116,8 @@ webView = WKWebView(frame: .zero, configuration: config)
 //    MARK:WKScriptMessageHandler
 func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         
-	print("方法名：" + message.name)
-	print("参数：\(message.body)")
+    print("方法名：" + message.name)
+    print("参数：\(message.body)")
 }
 ```
 
