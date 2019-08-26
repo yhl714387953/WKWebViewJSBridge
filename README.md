@@ -53,7 +53,7 @@ NSString* method = [NSString stringWithFormat:@"videoPlay(\"%@\")", url];
 
 ### JS调用OC、Swift方法
 
-JS里在需要的地方调用如下方法
+比如JS需要调用native的 `CallApp` 方法，那么在需要调用的地方写法如下：
 
 ```
 var params = {'url': 'Call APP method "CallApp()"'}
@@ -61,7 +61,7 @@ window.webkit.messageHandlers.CallApp.postMessage(params);
 
 ```
 
-按照如下的方法初始化 `WKWebView` ， 调用`addScriptMessageHandler: name`方法，如下：
+按照如下的方法初始化 `WKWebView` ， 调用`addScriptMessageHandler: name`方法，注册 `CallApp`方法，如下：
 **OC:**
 
 
