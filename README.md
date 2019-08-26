@@ -59,8 +59,8 @@ window.webkit.messageHandlers.CallApp.postMessage(params);
 ```
 
 按照如下的方法初始化 `WKWebView` ， 调用`addScriptMessageHandler: name`方法，注册 `CallApp`方法，如下：
-**OC:**
 
+**OC:**
 
 ```
 WKWebViewConfiguration* config = [[WKWebViewConfiguration alloc] init];
