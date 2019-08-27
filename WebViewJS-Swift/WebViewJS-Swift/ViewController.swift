@@ -72,7 +72,7 @@ class ViewController: UIViewController, WKScriptMessageHandler, WKUIDelegate {
             
             //  必须要有双引号
             let method = "videoPlay(\"\(url)\")"
-            webView .evaluateJavaScript(method) { (obj, error) in
+            webView.evaluateJavaScript(method) { (obj, error) in
                 if let myError = error {
                     print(myError)
                 }else{
