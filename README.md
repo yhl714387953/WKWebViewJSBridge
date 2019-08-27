@@ -17,7 +17,9 @@ function videoPlay(videoUrl){
 }
 ```
 
-**OC:** native去调用 `videoPlay(videoUrl)`
+native去调用 `videoPlay(videoUrl)`
+
+**OC:** 
 
 ```
 NSString* url = @"http://muymov.a.yximgs.com/bs2/newWatermark/MTQwMjI4MjU2NDM_zh_4.mp4";
@@ -33,14 +35,14 @@ NSString* method = [NSString stringWithFormat:@"videoPlay(\"%@\")", url];
 }];
 ```
 
-**Swift:** native去调用网页方法 `videoPlay(videoUrl)`
+**Swift:**
 
 ```
 let url = "http://muymov.a.yximgs.com/bs2/newWatermark/MTQwMjI4MjU2NDM_zh_4.mp4"
       
 //  必须要有双引号
 let method = "videoPlay(\"\(url)\")"
-webView .evaluateJavaScript(method) { (obj, error) in
+webView.evaluateJavaScript(method) { (obj, error) in
     if let myError = error {
         print(myError)
     }else{
@@ -58,7 +60,7 @@ var params = {'url': 'Call APP method "CallApp()"'}
 window.webkit.messageHandlers.CallApp.postMessage(params);
 ```
 
-按照如下的方法初始化 `WKWebView` ， 调用`addScriptMessageHandler: name`方法，注册 `CallApp`方法，如下：
+按照如下的方法初始化 `WKWebView` ， 调用`addScriptMessageHandler: name`方法，注册 `CallApp` 方法，如下：
 
 **OC:**
 
