@@ -88,23 +88,22 @@ window.webkit.messageHandlers.CallApp.postMessage(params);
 **Swift:**
 
 ```
-    lazy var webView : WKWebView = {
-        let config = WKWebViewConfiguration()
-        config.allowsInlineMediaPlayback = true //可以禁止弹出全屏  网页video标签要加上 playsinline 这个属性
-        let uc = WKUserContentController()
-        config.userContentController = uc
-        uc.add(self, name: "CallApp")
-        uc.add(self, name: "APPVideoPlay")
-        //        其中name参数在JS里的写法如下：
-        //        window.webkit.messageHandlers.CallApp.postMessage(params);
-        //        就是 messageHandlers 后面的参数
+lazy var webView : WKWebView = {
+    let config = WKWebViewConfiguration()
+    config.allowsInlineMediaPlayback = true //可以禁止弹出全屏  网页video标签要加上 playsinline 这个属性
+    let uc = WKUserContentController()
+    config.userContentController = uc
+    uc.add(self, name: "CallApp")
+    uc.add(self, name: "APPVideoPlay")
+    //        其中name参数在JS里的写法如下：
+    //        window.webkit.messageHandlers.CallApp.postMessage(params);
+    //        就是 messageHandlers 后面的参数
         
-        let web = WKWebView(frame: .zero, configuration: config)
-        //        webView.frame = view.bounds
-        web.uiDelegate = self;
-        
-        return web
-    }()
+    let web = WKWebView(frame: .zero, configuration: config)
+    //        webView.frame = view.bounds
+    web.uiDelegate = self;
+    return web
+}()
 ```
 
 在 webView 的UIDelegate代理中可以拿到响应
