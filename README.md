@@ -65,38 +65,46 @@ window.webkit.messageHandlers.CallApp.postMessage(params);
 **OC:**
 
 ```
-WKWebViewConfiguration* config = [[WKWebViewConfiguration alloc] init];
-config.allowsInlineMediaPlayback = YES;//可以禁止弹出全屏  网页video标签要加 上playsinline 这个属性
-WKUserContentController* uc = [[WKUserContentController alloc] init];
-config.userContentController = uc;
-[uc addScriptMessageHandler:self name:@"CallApp"];
-[uc addScriptMessageHandler:self name:@"APPVideoPlay"];
-//        其中name参数在JS里的写法如下：
-//        window.webkit.messageHandlers.CallApp.postMessage(params);
-//        就是 messageHandlers 后面的参数
+-(WKWebView *)webView{
+    if (!_webView) {
+        WKWebViewConfiguration* config = [[WKWebViewConfiguration alloc] init];
+        config.allowsInlineMediaPlayback = YES;//可以禁止弹出全屏  网页video标签要加 上playsinline 这个属性
+        WKUserContentController* uc = [[WKUserContentController alloc] init];
+        config.userContentController = uc;
+        [uc addScriptMessageHandler:self name:@"CallApp"];
+        [uc addScriptMessageHandler:self name:@"APPVideoPlay"];
+        //        其中name参数在JS里的写法如下：
+        //        window.webkit.messageHandlers.CallApp.postMessage(params);
+        //        就是 messageHandlers 后面的参数
+        
+        _webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:config];
+        _webView.UIDelegate = self;
+    }
     
-self.webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:config];
-[self.view addSubview:self.webView];//必须先添加视图再添加约束
-self.webView.UIDelegate = self;
+    return _webView;
+}
 ```
 
 **Swift:**
 
 ```
-let config = WKWebViewConfiguration()
-config.allowsInlineMediaPlayback = true //可以禁止弹出全屏  网页video标签要加上 playsinline 这个属性
-let uc = WKUserContentController()
-config.userContentController = uc
-uc.add(self, name: "CallApp")
-uc.add(self, name: "APPVideoPlay")
-//        其中name参数在JS里的写法如下：
-//        window.webkit.messageHandlers.CallApp.postMessage(params);
-//        就是 messageHandlers 后面的参数
+    lazy var webView : WKWebView = {
+        let config = WKWebViewConfiguration()
+        config.allowsInlineMediaPlayback = true //可以禁止弹出全屏  网页video标签要加上 playsinline 这个属性
+        let uc = WKUserContentController()
+        config.userContentController = uc
+        uc.add(self, name: "CallApp")
+        uc.add(self, name: "APPVideoPlay")
+        //        其中name参数在JS里的写法如下：
+        //        window.webkit.messageHandlers.CallApp.postMessage(params);
+        //        就是 messageHandlers 后面的参数
         
-webView = WKWebView(frame: .zero, configuration: config)
-//        webView.frame = view.bounds
-view.addSubview(webView)
-webView.uiDelegate = self;
+        let web = WKWebView(frame: .zero, configuration: config)
+        //        webView.frame = view.bounds
+        web.uiDelegate = self;
+        
+        return web
+    }()
 ```
 
 在 webView 的UIDelegate代理中可以拿到响应
