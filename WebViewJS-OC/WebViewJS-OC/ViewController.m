@@ -21,28 +21,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self addWebView];
+    [self.view addSubview:self.webView];//必须先添加视图再添加约束
     [self addConstraintForWebView];
     [self loadHomePage];
     
     // Do any additional setup after loading the view.
-}
-
--(void)addWebView{
-    
-    WKWebViewConfiguration* config = [[WKWebViewConfiguration alloc] init];
-    config.allowsInlineMediaPlayback = YES;//可以禁止弹出全屏  网页video标签要加 上playsinline 这个属性
-    WKUserContentController* uc = [[WKUserContentController alloc] init];
-    config.userContentController = uc;
-    [uc addScriptMessageHandler:self name:@"CallApp"];
-    [uc addScriptMessageHandler:self name:@"APPVideoPlay"];
-    //        其中name参数在JS里的写法如下：
-    //        window.webkit.messageHandlers.CallApp.postMessage(params);
-    //        就是 messageHandlers 后面的参数
-    
-    self.webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:config];
-    [self.view addSubview:self.webView];//必须先添加视图再添加约束
-    self.webView.UIDelegate = self;
 }
 
 -(void)addConstraintForWebView{
@@ -63,6 +46,25 @@
     [self.webView loadFileURL:[NSURL fileURLWithPath:filePath] allowingReadAccessToURL:[NSURL fileURLWithPath:filePath]];
 }
 
+#pragma mark - getter
+-(WKWebView *)webView{
+    if (!_webView) {
+        WKWebViewConfiguration* config = [[WKWebViewConfiguration alloc] init];
+        config.allowsInlineMediaPlayback = YES;//可以禁止弹出全屏  网页video标签要加 上playsinline 这个属性
+        WKUserContentController* uc = [[WKUserContentController alloc] init];
+        config.userContentController = uc;
+        [uc addScriptMessageHandler:self name:@"CallApp"];
+        [uc addScriptMessageHandler:self name:@"APPVideoPlay"];
+        //        其中name参数在JS里的写法如下：
+        //        window.webkit.messageHandlers.CallApp.postMessage(params);
+        //        就是 messageHandlers 后面的参数
+        
+        _webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:config];
+        _webView.UIDelegate = self;
+    }
+    
+    return _webView;
+}
 
 
 

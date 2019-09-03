@@ -11,17 +11,7 @@ import WebKit
 
 class ViewController: UIViewController, WKScriptMessageHandler, WKUIDelegate {
     
-    var webView: WKWebView!
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        addWebView()
-        addConstraintForWebView()
-        loadHomePage()
-        // Do any additional setup after loading the view.
-    }
-    
-    func addWebView() {
+    lazy var webView : WKWebView = {
         let config = WKWebViewConfiguration()
         config.allowsInlineMediaPlayback = true //可以禁止弹出全屏  网页video标签要加上 playsinline 这个属性
         let uc = WKUserContentController()
@@ -32,17 +22,27 @@ class ViewController: UIViewController, WKScriptMessageHandler, WKUIDelegate {
         //        window.webkit.messageHandlers.CallApp.postMessage(params);
         //        就是 messageHandlers 后面的参数
         
-        webView = WKWebView(frame: .zero, configuration: config)
+        let web = WKWebView(frame: .zero, configuration: config)
         //        webView.frame = view.bounds
+        web.uiDelegate = self;
+        
+        return web
+    }()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
         view.addSubview(webView)
-        webView.uiDelegate = self;
+        addConstraintForWebView()
+        loadHomePage()
+        // Do any additional setup after loading the view.
     }
     
     func addConstraintForWebView(){
-        let topConstraint = NSLayoutConstraint(item: webView!, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1.0, constant: 0)
-        let rightConstraint = NSLayoutConstraint(item: webView!, attribute: .right, relatedBy: .equal, toItem: view, attribute: .right, multiplier: 1.0, constant: 0)
-        let bottomConstraint = NSLayoutConstraint(item: webView!, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1.0, constant: 0)
-        let leftConstraint = NSLayoutConstraint(item: webView!, attribute: .left, relatedBy: .equal, toItem: view, attribute: .left, multiplier: 1.0, constant: 0)
+        let topConstraint = NSLayoutConstraint(item: webView, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1.0, constant: 0)
+        let rightConstraint = NSLayoutConstraint(item: webView, attribute: .right, relatedBy: .equal, toItem: view, attribute: .right, multiplier: 1.0, constant: 0)
+        let bottomConstraint = NSLayoutConstraint(item: webView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1.0, constant: 0)
+        let leftConstraint = NSLayoutConstraint(item: webView, attribute: .left, relatedBy: .equal, toItem: view, attribute: .left, multiplier: 1.0, constant: 0)
         
         //        此属性必须要设置为false，否则约束不生效
         webView.translatesAutoresizingMaskIntoConstraints = false
